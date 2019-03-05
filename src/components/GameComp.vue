@@ -1,8 +1,6 @@
 <template>
     <div>
         <StatsComp
-            v-bind:given="givenAnswers"
-            v-bind:correct="correctAnswers"
             ref="stats"
         ></StatsComp>
         <QuestionComp
@@ -25,13 +23,11 @@
         name: "GameComponent",
         components: {StatsComp, QuestionComp},
         data: () => ({
-            givenAnswers: 0,
-            correctAnswers: 0,
             answered: false,
         }),
         methods: {
-            answer: function(correct) {
-                this.$refs.stats.giveAnswer(correct);
+            answer: function(isCorrect) {
+                this.$refs.stats.giveAnswer(isCorrect);
                 this.answered = true;
             },
             newQuestion: function() {

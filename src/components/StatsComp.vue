@@ -1,7 +1,7 @@
 <template>
     <div class="caption font-weight-light">
         {{quota}}
-        Streak: {{streak}}
+        Streak: {{stats.streak}}
     </div>
 </template>
 
@@ -9,25 +9,39 @@
     export default {
         name: "StatsComp",
         data: () => ({
-            given: 0,
-            correct: 0,
-            streak: 0,
+            stats: {
+                given: 0,
+                correct: 0,
+                streak: 0,
+            }
         }),
         computed: {
             quota: function() {
-                return `${this.correct}/${this.given}`;
+                return `${this.stats.correct}/${this.stats.given}`;
             }
         },
         methods: {
             giveAnswer: function(isCorrect) {
-                this.given++;
+                this.stats.given++;
                 if (isCorrect) {
-                    this.correct++;
-                    this.streak++;
+                    this.stats.correct++;
+                    this.stats.streak++;
                 } else {
-                    this.streak = 0;
+                    this.stats.streak = 0;
                 }
+                this.saveStats();
+            },
+            saveStats: function() {
+                const dataString = JSON.stringify(this.stats);
+                localStorage.setItem('stats', dataString);
+            },
+            getStats: function() {
+                const dataString = localStorage.getItem('stats');
+                this.stats = JSON.parse(dataString);
             }
+        },
+        created: function() {
+            this.getStats();
         }
     }
 </script>
