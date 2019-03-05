@@ -3,6 +3,7 @@
         <StatsComp
             v-bind:given="givenAnswers"
             v-bind:correct="correctAnswers"
+            ref="stats"
         ></StatsComp>
         <QuestionComp
                 v-on:answer="answer"
@@ -30,8 +31,7 @@
         }),
         methods: {
             answer: function(correct) {
-                this.givenAnswers++;
-                if (correct) this.correctAnswers++;
+                this.$refs.stats.giveAnswer(correct);
                 this.answered = true;
             },
             newQuestion: function() {
