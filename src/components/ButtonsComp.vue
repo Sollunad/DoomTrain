@@ -29,10 +29,10 @@
                 else return '';
             },
             isGreen: function(day) {
-                return this.picked && day === this.correct;
+                return this.picked != null && day === this.correct;
             },
             isRed: function(day) {
-                return this.picked === day && this.picked !== this.correct;
+                return this.picked === day && this.picked != this.correct;
             },
         }
     }
