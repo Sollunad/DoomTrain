@@ -32,6 +32,7 @@
             },
             newQuestion: function() {
                 this.$refs.question.newQuestion();
+                this.answered = false;
             }
         }
     }

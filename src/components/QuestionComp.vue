@@ -1,5 +1,8 @@
 <template>
     <div>
+        <v-progress-circular size="50" width="5" :value="timeRatio" :color="timerColor" class="timer">
+            {{timeRatio / 10}}
+        </v-progress-circular>
         <div class="display-2 font-weight-light">
             {{dateString}}
         </div>
@@ -18,7 +21,12 @@
         components: {ButtonsComp},
         data: () => ({
             date: null,
-            picked: null
+            picked: null,
+            maxTime: 10,
+            remainingTime: 0,
+            timer: null,
+            startedTimestamp: null,
+            timerColor: ''
         }),
         computed: {
             dateString: function() {
@@ -31,6 +39,9 @@
             },
             correctDay: function() {
                 return this.date.getDay();
+            },
+            timeRatio: function() {
+                return Math.ceil(this.remainingTime / this.maxTime * 100);
             }
         },
         methods: {
@@ -42,12 +53,24 @@
             pick: function(day) {
                 if (!this.picked) {
                     this.picked = day;
+                    clearInterval(this.timer);
                     const correct = this.correctDay === day;
                     this.$emit('answer', correct);
                 }
             },
             newQuestion: function() {
                 this.picked = null;
+                this.timerColor = '';
+                this.remainingTime = this.maxTime;
+                this.startedTimestamp = Date.now();
+                const that = this;
+                this.timer = setInterval(function() {
+                    that.remainingTime--;
+                    if (that.remainingTime === 0) {
+                        that.pick(7);
+                        that.timerColor = 'error';
+                    }
+                }, 1000);
                 this.date = this.randomDate();
             }
         },
@@ -58,5 +81,7 @@
 </script>
 
 <style scoped>
-
+    .timer {
+        margin: 15px 0;
+    }
 </style>

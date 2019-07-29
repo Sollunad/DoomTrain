@@ -37,7 +37,7 @@
             },
             getStats: function() {
                 const dataString = localStorage.getItem('stats');
-                this.stats = JSON.parse(dataString);
+                if (dataString) this.stats = JSON.parse(dataString);
             }
         },
         created: function() {
