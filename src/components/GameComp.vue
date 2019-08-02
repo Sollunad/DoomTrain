@@ -23,7 +23,7 @@
         name: "GameComponent",
         components: {StatsComp, QuestionComp},
         data: () => ({
-            answered: false,
+            answered: true,
         }),
         methods: {
             answer: function(isCorrect) {

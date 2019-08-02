@@ -21,7 +21,7 @@
         components: {ButtonsComp},
         data: () => ({
             date: null,
-            picked: null,
+            picked: true,
             maxTime: 10,
             remainingTime: 0,
             timer: null,
@@ -30,15 +30,23 @@
         }),
         computed: {
             dateString: function() {
-                let d = this.date.getDate();
-                d = d > 9? d : `0${d}`;
-                let m = this.date.getMonth() + 1;
-                m = m > 9? m : `0${m}`;
-                const y = this.date.getFullYear();
-                return `${d}.${m}.${y}`;
+                if (this.date) {
+                    let d = this.date.getDate();
+                    d = d > 9? d : `0${d}`;
+                    let m = this.date.getMonth() + 1;
+                    m = m > 9? m : `0${m}`;
+                    const y = this.date.getFullYear();
+                    return `${d}.${m}.${y}`;
+                } else {
+                    return '';
+                }
             },
             correctDay: function() {
-                return this.date.getDay();
+                if (this.date) {
+                    return this.date.getDay();
+                } else {
+                    return null;
+                }
             },
             timeRatio: function() {
                 return Math.ceil(this.remainingTime / this.maxTime * 100);
@@ -73,9 +81,6 @@
                 }, 1000);
                 this.date = this.randomDate();
             }
-        },
-        created: function () {
-            this.newQuestion();
         }
     }
 </script>
